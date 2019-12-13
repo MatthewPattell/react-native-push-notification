@@ -247,6 +247,10 @@ public class RNPushNotificationHelper {
                 smallIconResId = res.getIdentifier(smallIcon, "mipmap", packageName);
             } else {
                 smallIconResId = res.getIdentifier("ic_notification", "mipmap", packageName);
+
+                if (smallIconResId == 0) {
+                    smallIconResId = res.getIdentifier("ic_notification", "drawable", packageName);
+                }
             }
 
             if (smallIconResId == 0) {
@@ -392,7 +396,7 @@ public class RNPushNotificationHelper {
             if (!(this.isApplicationInForeground(context) && bundle.getBoolean("ignoreInForeground"))) {
                 Notification info = notification.build();
                 info.defaults |= Notification.DEFAULT_LIGHTS;
-                
+
                 if (bundle.containsKey("tag")) {
                     String tag = bundle.getString("tag");
                     notificationManager.notify(tag, notificationID, info);
@@ -606,7 +610,7 @@ public class RNPushNotificationHelper {
         manager.createNotificationChannel(channel);
         channelCreated = true;
     }
-    
+
     private boolean isApplicationInForeground(Context context) {
         ActivityManager activityManager = (ActivityManager) context.getSystemService(Context.ACTIVITY_SERVICE);
         List<RunningAppProcessInfo> processInfos = activityManager.getRunningAppProcesses();
